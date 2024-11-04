@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.exceptions import AuthenticationFailed, PermissionDenied
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from common.response_handler import ResponseHandler
+from apps.common.response_handler import ResponseHandler
 
 
 class CustomJWTAuthentication(JWTAuthentication):

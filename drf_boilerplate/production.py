@@ -2,14 +2,18 @@ from .settings import *
 
 # Cloudinary storage settings
 CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": config("CLOUDINARY_CLOUD_NAME"),  # Cloudinary cloud name from environment variables
+    "CLOUD_NAME": config(
+        "CLOUDINARY_CLOUD_NAME"
+    ),  # Cloudinary cloud name from environment variables
     "API_KEY": config("CLOUDINARY_API_KEY"),  # Cloudinary API key
     "API_SECRET": config("CLOUDINARY_API_SECRET"),  # Cloudinary API secret
 }
 
 # General settings for production
 DEBUG = False  # Turn off debug mode for production
-DEBUG_PROPAGATE_EXCEPTIONS = False  # Prevent debug information from propagating in production
+DEBUG_PROPAGATE_EXCEPTIONS = (
+    False  # Prevent debug information from propagating in production
+)
 
 # Allowed hosts for the application
 ALLOWED_HOSTS = []  # Set this to your allowed production hosts
@@ -22,13 +26,13 @@ REDISCLOUD_URL = config("REDISCLOUD_URL")
 
 # Database configuration (PostgreSQL) for production
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',  # Use PostgreSQL as the database engine
-        'NAME': config('DB_NAME'),  # Database name from environment
-        'USER': config('DB_USER'),  # Database user
-        'PASSWORD': config('DB_PASS'),  # Database password
-        'HOST': config('DB_HOST'),  # Database host
-        'PORT': config('DB_PORT'),  # Database port
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",  # Use PostgreSQL as the database engine
+        "NAME": config("DB_NAME"),  # Database name from environment
+        "USER": config("DB_USER"),  # Database user
+        "PASSWORD": config("DB_PASS"),  # Database password
+        "HOST": config("DB_HOST"),  # Database host
+        "PORT": config("DB_PORT"),  # Database port
     }
 }
 
@@ -37,7 +41,9 @@ INSTALLED_APPS.remove("debug_toolbar")
 MIDDLEWARE.remove("debug_toolbar.middleware.DebugToolbarMiddleware")
 
 # Email backend settings for SMTP
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"  # Use SMTP for sending emails
+EMAIL_BACKEND = (
+    "django.core.mail.backends.smtp.EmailBackend"  # Use SMTP for sending emails
+)
 EMAIL_USE_TLS = True  # Enable TLS for email security
 EMAIL_USE_SSL = False  # Disable SSL (only TLS is enabled)
 EMAIL_HOST = "smtp.gmail.com"  # Email host (Gmail)
@@ -61,8 +67,14 @@ STORAGES = {
 CONTENT_SECURITY_POLICY = {
     "DIRECTIVES": {
         "default-src": ["'self'"],  # Only allow loading from same origin
-        "img-src": ["'self'", "https://res.cloudinary.com"],  # Allow images from Cloudinary
-        "media-src": ["'self'", "https://res.cloudinary.com"],  # Allow media files from Cloudinary
+        "img-src": [
+            "'self'",
+            "https://res.cloudinary.com",
+        ],  # Allow images from Cloudinary
+        "media-src": [
+            "'self'",
+            "https://res.cloudinary.com",
+        ],  # Allow media files from Cloudinary
         "script-src": ["'self'"],  # Restrict JavaScript to same-origin
         "style-src": ["'self'"],  # Restrict CSS to same-origin
         "font-src": ["'self'"],  # Restrict font files to same-origin
@@ -79,13 +91,20 @@ SECURE_HSTS_SECONDS = 31536000  # Enable HTTP Strict Transport Security for 1 ye
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS to all subdomains
 SECURE_HSTS_PRELOAD = True  # Allow HSTS preloading in browsers
 SECURE_BROWSER_XSS_FILTER = True  # Enable XSS filtering
-SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent the browser from MIME-type sniffing  # noqa
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')  # Header for identifying secure requests
+SECURE_CONTENT_TYPE_NOSNIFF = (
+    True  # Prevent the browser from MIME-type sniffing  # noqa
+)
+SECURE_PROXY_SSL_HEADER = (
+    "HTTP_X_FORWARDED_PROTO",
+    "https",
+)  # Header for identifying secure requests
 SECURE_SSL_REDIRECT = True  # Redirect all HTTP requests to HTTPS
 SESSION_COOKIE_SECURE = True  # Ensure session cookie is only sent over HTTPS
 X_FRAME_OPTIONS = "DENY"  # Prevent the site from being embedded in iframes
 
 # Additional cookie settings
 SESSION_COOKIE_HTTPONLY = True  # Prevent JavaScript from accessing session cookies
-CSRF_COOKIE_HTTPONLY = False  # Allow CSRF cookie to be accessible to JavaScript (if required)
+CSRF_COOKIE_HTTPONLY = (
+    False  # Allow CSRF cookie to be accessible to JavaScript (if required)
+)
 CSRF_COOKIE_SAMESITE = "Lax"  # CSRF cookie is only sent on same-site requests  # noqa

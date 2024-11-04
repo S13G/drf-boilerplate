@@ -6,7 +6,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
 
-from common.response_handler import ResponseHandler
+from apps.common.response_handler import ResponseHandler
 
 
 class BaseService:

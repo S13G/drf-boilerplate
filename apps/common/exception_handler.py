@@ -9,7 +9,7 @@ from rest_framework.exceptions import (
     NotFound,
     Throttled,
 )
-from common.response_handler import ResponseHandler
+from apps.common.response_handler import ResponseHandler
 
 
 class CustomExceptionHandler:

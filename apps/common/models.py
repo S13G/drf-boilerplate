@@ -21,3 +21,16 @@ class BaseModel(models.Model):
 
     def __str__(self):
         return f"{self.__class__.__name__} (created at {self.created_at})"
+
+
+class BlacklistedToken(models.Model):
+    jti = models.CharField(max_length=255, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        verbose_name = "Blacklisted Token"
+        verbose_name_plural = "Blacklisted Tokens"
+
+    def __str__(self):
+        return f"Blacklisted token with jti: {self.jti}"
