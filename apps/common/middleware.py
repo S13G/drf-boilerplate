@@ -1,8 +1,9 @@
+from django.http import JsonResponse
 from django.utils.deprecation import MiddlewareMixin
+from rest_framework import status
 from rest_framework_simplejwt.tokens import AccessToken
 
 from apps.common.models import BlacklistedToken
-from apps.common.response_handler import ResponseHandler
 
 
 class BlacklistMiddleware(MiddlewareMixin):
@@ -17,6 +18,10 @@ class BlacklistMiddleware(MiddlewareMixin):
 
             # Check if the token's jti is in the blacklist
             if BlacklistedToken.objects.filter(jti=jti).exists():
-                return ResponseHandler.error(
-                    message="This access token has been revoked.", status_code=401
+                return JsonResponse(
+                    {
+                        "status": "error",
+                        "message": "This access token has been revoked.",
+                    },
+                    status=status.HTTP_401_UNAUTHORIZED,
                 )

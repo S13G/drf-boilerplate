@@ -1,0 +1,71 @@
+version: "3"
+
+services:
+  django:
+    restart: always
+    build: .
+    container_name: project_name
+    ports:
+      - "8000:8000"
+    command: >
+      sh -c 'python3 manage.py migrate --settings=$DJANGO_SETTINGS_MODULE && \
+             python3 manage.py collectstatic --no-input --settings=$DJANGO_SETTINGS_MODULE && \
+             python3 manage.py createsu --settings=$DJANGO_SETTINGS_MODULE && \
+             watchmedo auto-restart --directory=/wejpal/ --pattern=*.py --recursive -- \
+                 gunicorn -b 0.0.0.0 -p $PORT wejpal.asgi:application -v2'
+    env_file:
+      - .env
+    volumes:
+      - .:/project_name
+    depends_on:
+      #      - redis
+      - db
+  #
+  #  redis:
+  #    image: redis:alpine
+  #    container_name: redis
+  #    env_file:
+  #      - .env
+
+  db:
+    image: postgres
+    container_name: postgres_db
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+volumes:
+  postgres_data:
+
+
+#  # Celery
+#  celery:
+#    restart: always
+#    container_name: celery
+#    build: .
+#    command: celery -A wejpal worker -l INFO
+#    env_file:
+#      - .env
+#    volumes:
+#      - .:/wejpal
+#    depends_on:
+#      - db
+#      - redis
+#      - django
+#
+#  # Celery beat
+#  beat:
+#    build: .
+#    restart: always
+#    container_name: celery-beat
+#    command: celery -A wejpal beat -l INFO --schedule /wejpal/celerybeat-schedule
+#    env_file:
+#      - .env
+#    volumes:
+#      - .:/wejpal
+#    depends_on:
+#      - db
+#      - redis
+#      - django

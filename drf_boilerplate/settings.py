@@ -40,7 +40,9 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-LOCAL_APPS = ["apps.common.apps.CommonConfig"]
+LOCAL_APPS = [
+    "apps.common.apps.CommonConfig",
+]
 
 THIRD_PARTY_APPS = [
     "debug_toolbar",
