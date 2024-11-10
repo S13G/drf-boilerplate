@@ -22,6 +22,7 @@ class BlacklistMiddleware(MiddlewareMixin):
                     {
                         "status": "error",
                         "message": "This access token has been revoked.",
+                        "errors": "Revoked access token"
                     },
                     status=status.HTTP_401_UNAUTHORIZED,
                 )
