@@ -11,21 +11,22 @@ class BlacklistMiddleware(MiddlewareMixin):
         # Check if the token is in the blacklist
         token = request.headers.get("Authorization", None)
         try:
-            # Extract the token part
-            token = token.split(" ")[1]
-            access_token = AccessToken(token)
-            jti = access_token["jti"]
+            if token:
+                # Extract the token part
+                token = token.split(" ")[1]
+                access_token = AccessToken(token)
+                jti = access_token["jti"]
 
-            # Check if the token's jti is in the blacklist
-            if BlacklistedToken.objects.filter(jti=jti).exists():
-                return JsonResponse(
-                    {
-                        "status": "error",
-                        "message": "This access token has been revoked.",
-                        "errors": "Revoked access token"
-                    },
-                    status=status.HTTP_401_UNAUTHORIZED,
-                )
+                # Check if the token's jti is in the blacklist
+                if BlacklistedToken.objects.filter(jti=jti).exists():
+                    return JsonResponse(
+                        {
+                            "status": "error",
+                            "message": "This access token has been revoked.",
+                            "errors": "Revoked access token"
+                        },
+                        status=status.HTTP_401_UNAUTHORIZED,
+                    )
 
         except Exception as e:  # noqa
             return JsonResponse(
