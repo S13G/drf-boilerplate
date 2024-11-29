@@ -10,7 +10,7 @@ class BlacklistMiddleware(MiddlewareMixin):
     def process_request(self, request):  # noqa
         # Check if the token is in the blacklist
         token = request.headers.get("Authorization", None)
-        if token:
+        try:
             # Extract the token part
             token = token.split(" ")[1]
             access_token = AccessToken(token)
@@ -26,3 +26,13 @@ class BlacklistMiddleware(MiddlewareMixin):
                     },
                     status=status.HTTP_401_UNAUTHORIZED,
                 )
+
+        except Exception as e:  # noqa
+            return JsonResponse(
+                {
+                    "status": "error",
+                    "message": "This token is either invalid or expired.",
+                    "errors": "Expired/invalid access token"
+                },
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
